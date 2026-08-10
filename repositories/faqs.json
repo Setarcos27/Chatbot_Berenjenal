@@ -1,0 +1,44 @@
+{
+  "preguntas": [
+    {
+      "id": 1,
+      "pregunta": "¿Qué es El Berenjenal?",
+      "respuesta": "El Berenjenal es un huerto comunitario y espacio de encuentro en La Luisiana (Sevilla), impulsado por jóvenes con el apoyo del Cuerpo Europeo de Solidaridad. Queremos recuperar saberes campesinos, cultivar alimentos y crear comunidad."
+    },
+    {
+      "id": 2,
+      "pregunta": "¿Qué es un huerto comunitario?",
+      "respuesta": "Es un espacio donde un grupo de personas cultivan la tierra de forma compartida, colaborativa y sin ánimo de lucro. El objetivo no es solo obtener alimentos, sino también aprender, socializar y cuidar el medio ambiente."
+    },
+    {
+      "id": 3,
+      "pregunta": "¿Cómo me uno al proyecto?",
+      "respuesta": "Puedes apuntarte rellenando el formulario en nuestra web o escribiéndonos a vagamundis@gmail.com. Todas las actividades son gratuitas y abiertas a jóvenes de 16 a 35 años."
+    },
+    {
+      "id": 4,
+      "pregunta": "¿Cuándo es la siguiente reunión o taller?",
+      "respuesta": "Puedes consultar el calendario de eventos en nuestra web o en el grupo de WhatsApp. Normalmente tenemos talleres los fines de semana y quedadas entre semana."
+    },
+    {
+      "id": 5,
+      "pregunta": "¿Cómo se reparten las tareas?",
+      "respuesta": "Tenemos un sistema de turnos rotativos para riego, compost y limpieza. Cada semana nos coordinamos para repartir las tareas. No hace falta experiencia, todo se aprende."
+    },
+    {
+      "id": 6,
+      "pregunta": "¿Qué es la permacultura?",
+      "respuesta": "La permacultura es un sistema de diseño para crear entornos humanos sostenibles y autosuficientes, inspirado en los ecosistemas naturales. En el huerto aplicamos principios como el no laboreo, el uso eficiente del agua y la biodiversidad."
+    },
+    {
+      "id": 7,
+      "pregunta": "¿Qué plantas tenemos en el huerto?",
+      "respuesta": "Tenemos variedades locales como tomate Raf, haba de la Rosa, pimiento de padrón, además de lechugas, judías, calabacines y hierbas aromáticas (albahaca, romero, tomillo)."
+    },
+    {
+      "id": 8,
+      "pregunta": "¿Por qué es importante la biodiversidad?",
+      "respuesta": "La biodiversidad hace que el huerto sea más resistente a plagas y enfermedades, mejora la fertilidad del suelo y atrae polinizadores. En El Berenjenal fomentamos la diversidad de plantas y la presencia de insectos beneficiosos."
+    }
+  ]
+}

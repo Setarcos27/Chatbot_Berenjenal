@@ -1,0 +1,453 @@
+/**
+ * Chatbot El Berenjenal — Estilos del widget
+ * CSS vanilla, sin dependencias externas.
+ * Paleta natural: verdes, blancos rotos y tonos tierra.
+ */
+
+/* =============================================================================
+   1. Variables de diseño (paleta natural)
+   ============================================================================= */
+
+:root {
+	--cb-verde-oscuro: #2e7d32;          /* Verde bosque (principal) */
+	--cb-verde: #4caf50;                 /* Verde hoja */
+	--cb-verde-claro: #81c784;           /* Verde suave (detalles) */
+	--cb-verde-fondo: #e8f5e9;           /* Verde muy claro (fondos) */
+	--cb-tierra: #795548;                /* Marrón tierra */
+	--cb-tierra-claro: #d7ccc8;          /* Tierra claro */
+	--cb-blanco-roto: #faf7f2;           /* Blanco roto / hueso */
+	--cb-texto: #2e2a25;                 /* Texto principal */
+	--cb-texto-suave: #6d6a63;           /* Texto secundario */
+	--cb-borde: #ede7dc;                 /* Bordes suaves */
+	--cb-sombra: 0 8px 30px rgba(46, 40, 30, 0.22);
+	--cb-radio: 16px;
+	--cb-z-index: 999999;                /* Siempre por encima del contenido */
+}
+
+/* =============================================================================
+   2. Contenedor base
+   ============================================================================= */
+
+.chatbot-berenjenal {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	color: var(--cb-texto);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* =============================================================================
+   3. Botón flotante (modo flotante)
+   ============================================================================= */
+
+.chatbot-berenjenal__boton {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	width: 62px;
+	height: 62px;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 28px;
+	color: #fff;
+	background: linear-gradient(135deg, var(--cb-verde), var(--cb-verde-oscuro));
+	box-shadow: var(--cb-sombra), 0 0 0 0 rgba(76, 175, 80, 0.45);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+	z-index: var(--cb-z-index);
+	/* Animación de pulso sutil para llamar la atención */
+	animation: cb-pulso 2.6s ease-out infinite;
+}
+
+.chatbot-berenjenal__boton:hover {
+	transform: scale(1.08);
+}
+
+.chatbot-berenjenal__boton:focus-visible,
+.chatbot-berenjenal__cerrar:focus-visible,
+.chatbot-berenjenal__entrada:focus-visible,
+.chatbot-berenjenal__enviar:focus-visible {
+	outline: 3px solid var(--cb-verde-claro);
+	outline-offset: 2px;
+}
+
+/* El icono ✕ solo se muestra cuando el chat está abierto */
+.chatbot-berenjenal__boton-cerrar {
+	display: none;
+}
+
+.chatbot-berenjenal--abierto .chatbot-berenjenal__boton {
+	animation: none;
+}
+
+.chatbot-berenjenal--abierto .chatbot-berenjenal__boton-abrir {
+	display: none;
+}
+
+.chatbot-berenjenal--abierto .chatbot-berenjenal__boton-cerrar {
+	display: inline;
+	font-size: 20px;
+}
+
+@keyframes cb-pulso {
+	0% {
+		box-shadow: var(--cb-sombra), 0 0 0 0 rgba(76, 175, 80, 0.45);
+	}
+	70% {
+		box-shadow: var(--cb-sombra), 0 0 0 16px rgba(76, 175, 80, 0);
+	}
+	100% {
+		box-shadow: var(--cb-sombra), 0 0 0 0 rgba(76, 175, 80, 0);
+	}
+}
+
+/* =============================================================================
+   4. Ventana de chat
+   ============================================================================= */
+
+.chatbot-berenjenal__ventana {
+	display: flex;
+	flex-direction: column;
+	width: 380px;
+	max-width: calc(100vw - 32px);
+	height: 560px;
+	max-height: calc(100vh - 130px);
+	background: var(--cb-blanco-roto);
+	border-radius: var(--cb-radio);
+	box-shadow: var(--cb-sombra);
+	overflow: hidden;
+}
+
+/* --- Modo flotante: ventana fija abajo a la derecha, oculta al inicio ------ */
+.chatbot-berenjenal--flotante .chatbot-berenjenal__ventana {
+	position: fixed;
+	right: 24px;
+	bottom: 98px;
+	z-index: var(--cb-z-index);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(24px) scale(0.96);
+	transform-origin: bottom right;
+	pointer-events: none;
+	transition:
+		opacity 0.3s ease,
+		transform 0.3s ease,
+		visibility 0s linear 0.3s;
+}
+
+/* Chat abierto: animación slide-up + fade */
+.chatbot-berenjenal--flotante.chatbot-berenjenal--abierto .chatbot-berenjenal__ventana {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0) scale(1);
+	pointer-events: auto;
+	transition:
+		opacity 0.3s ease,
+		transform 0.3s ease,
+		visibility 0s linear 0s;
+}
+
+/* --- Modo embebido (shortcode): ventana estática siempre visible ----------- */
+.chatbot-berenjenal--embebido .chatbot-berenjenal__ventana {
+	position: static;
+	width: 100%;
+	max-width: 420px;
+	height: 480px;
+	max-height: none;
+}
+
+.chatbot-berenjenal--embebido .chatbot-berenjenal__boton,
+.chatbot-berenjenal--embebido .chatbot-berenjenal__cerrar {
+	display: none;
+}
+
+/* =============================================================================
+   5. Cabecera
+   ============================================================================= */
+
+.chatbot-berenjenal__cabecera {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 14px 16px;
+	color: #fff;
+	background: linear-gradient(135deg, var(--cb-verde), var(--cb-verde-oscuro));
+	flex-shrink: 0;
+}
+
+.chatbot-berenjenal__titulo {
+	font-weight: 700;
+	font-size: 15px;
+	letter-spacing: 0.2px;
+}
+
+.chatbot-berenjenal__cerrar {
+	border: none;
+	background: rgba(255, 255, 255, 0.18);
+	color: #fff;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	font-size: 14px;
+	line-height: 1;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.chatbot-berenjenal__cerrar:hover {
+	background: rgba(255, 255, 255, 0.32);
+	transform: rotate(90deg);
+}
+
+/* =============================================================================
+   6. Área de mensajes
+   ============================================================================= */
+
+.chatbot-berenjenal__mensajes {
+	flex: 1;
+	overflow-y: auto;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background: var(--cb-blanco-roto);
+	scroll-behavior: smooth;
+}
+
+/* Barra de scroll discreta (WebKit/Blink) */
+.chatbot-berenjenal__mensajes::-webkit-scrollbar {
+	width: 6px;
+}
+
+.chatbot-berenjenal__mensajes::-webkit-scrollbar-thumb {
+	background: var(--cb-verde-claro);
+	border-radius: 3px;
+}
+
+/* --- Burbujas de mensaje ------------------------------------------------ */
+
+.chatbot-berenjenal__mensaje {
+	max-width: 82%;
+	padding: 10px 14px;
+	border-radius: 14px;
+	font-size: 14px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	animation: cb-entrada 0.25s ease both;
+}
+
+/* Mensaje del usuario: burbuja verde a la derecha */
+.chatbot-berenjenal__mensaje--usuario {
+	align-self: flex-end;
+	background: var(--cb-verde);
+	color: #fff;
+	border-bottom-right-radius: 4px;
+}
+
+/* Mensaje del bot: burbuja blanca a la izquierda */
+.chatbot-berenjenal__mensaje--bot {
+	align-self: flex-start;
+	background: #fff;
+	color: var(--cb-texto);
+	border: 1px solid var(--cb-borde);
+	border-bottom-left-radius: 4px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+@keyframes cb-entrada {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* --- Formato ligero del contenido de las respuestas ---------------------- */
+
+.chatbot-berenjenal__contenido p {
+	margin: 0 0 8px;
+}
+
+.chatbot-berenjenal__contenido p:last-child {
+	margin-bottom: 0;
+}
+
+.chatbot-berenjenal__contenido a {
+	color: var(--cb-verde-oscuro);
+	text-decoration: underline;
+}
+
+.chatbot-berenjenal__h {
+	font-weight: 700;
+	color: var(--cb-verde-oscuro);
+	margin: 10px 0 6px;
+}
+
+.chatbot-berenjenal__h--1 { font-size: 15px; }
+.chatbot-berenjenal__h--2 { font-size: 14px; }
+.chatbot-berenjenal__h--3,
+.chatbot-berenjenal__h--4 { font-size: 13px; }
+
+.chatbot-berenjenal__lista {
+	margin: 6px 0 6px 18px;
+	padding: 0;
+}
+
+.chatbot-berenjenal__lista li {
+	margin-bottom: 4px;
+}
+
+/* Etiqueta de la fuente (p. ej. "📄 compost.md") */
+.chatbot-berenjenal__fuente {
+	display: block;
+	margin-top: 6px;
+	font-size: 11px;
+	color: var(--cb-texto-suave);
+}
+
+/* --- Indicador "escribiendo…" (tres puntos animados) ---------------------- */
+
+.chatbot-berenjenal__escribiendo {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 2px;
+}
+
+.chatbot-berenjenal__punto {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--cb-verde);
+	animation: cb-punto 1.2s infinite ease-in-out;
+}
+
+.chatbot-berenjenal__punto:nth-child(2) { animation-delay: 0.15s; }
+.chatbot-berenjenal__punto:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cb-punto {
+	0%, 60%, 100% {
+		transform: translateY(0);
+		opacity: 0.45;
+	}
+	30% {
+		transform: translateY(-4px);
+		opacity: 1;
+	}
+}
+
+/* =============================================================================
+   7. Formulario (entrada + botón enviar)
+   ============================================================================= */
+
+.chatbot-berenjenal__formulario {
+	display: flex;
+	gap: 8px;
+	padding: 12px;
+	background: #fff;
+	border-top: 1px solid var(--cb-borde);
+	flex-shrink: 0;
+}
+
+.chatbot-berenjenal__entrada {
+	flex: 1;
+	min-width: 0;
+	border: 1px solid var(--cb-tierra-claro);
+	border-radius: 999px;
+	padding: 10px 16px;
+	font-size: 14px;
+	font-family: inherit;
+	color: var(--cb-texto);
+	background: var(--cb-blanco-roto);
+	outline: none;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chatbot-berenjenal__entrada:focus {
+	border-color: var(--cb-verde);
+	box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.18);
+	background: #fff;
+}
+
+.chatbot-berenjenal__entrada::placeholder {
+	color: var(--cb-texto-suave);
+}
+
+.chatbot-berenjenal__enviar {
+	width: 42px;
+	height: 42px;
+	flex-shrink: 0;
+	border: none;
+	border-radius: 50%;
+	background: var(--cb-verde);
+	color: #fff;
+	font-size: 16px;
+	line-height: 1;
+	cursor: pointer;
+	transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.chatbot-berenjenal__enviar:hover {
+	background: var(--cb-verde-oscuro);
+	transform: scale(1.06);
+}
+
+.chatbot-berenjenal__enviar:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	transform: none;
+}
+
+/* =============================================================================
+   8. Responsive (móviles: el chat ocupa casi toda la pantalla)
+   ============================================================================= */
+
+@media (max-width: 480px) {
+	.chatbot-berenjenal__boton {
+		right: 16px;
+		bottom: 16px;
+	}
+
+	.chatbot-berenjenal--flotante .chatbot-berenjenal__ventana {
+		right: 8px;
+		bottom: 8px;
+		width: calc(100vw - 16px);
+		height: calc(100dvh - 16px);
+		max-width: none;
+		max-height: none;
+		border-radius: 14px;
+	}
+
+	.chatbot-berenjenal__mensaje {
+		max-width: 88%;
+	}
+}
+
+/* =============================================================================
+   9. Accesibilidad: respeta "prefers-reduced-motion"
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+	.chatbot-berenjenal__boton,
+	.chatbot-berenjenal__mensaje,
+	.chatbot-berenjenal__punto {
+		animation: none;
+	}
+
+	.chatbot-berenjenal--flotante .chatbot-berenjenal__ventana {
+		transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+	}
+
+	.chatbot-berenjenal__mensajes {
+		scroll-behavior: auto;
+	}
+}

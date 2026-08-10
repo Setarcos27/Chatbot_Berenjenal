@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	worktree = /home/setarcos/PC/Developer/VAGAMUNDIS/Chatbot Berenjenal
+[user]
+	email = seek-code@local
+	name = Seek Code
